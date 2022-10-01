@@ -1,0 +1,75 @@
+import time
+import tkinter as tk
+import pyautogui
+import speech_recognition as sr
+
+r = tk.Tk()
+r.title('GUI //audio to text//')
+r.attributes('-topmost', 1)
+
+
+def main():
+    f = sr.Recognizer()
+    lt = tk.Text(r, height=3, width=40)
+    lt.config(state='normal')
+
+    print("listening...")
+    # Exception handling to handle
+    # exceptions at the runtime
+    try:
+        # use the microphone as source for input.
+        with sr.Microphone() as source2:
+            # wait for a second to let the recognizer
+            # adjust the energy threshold based on
+            # the surrounding noise level
+            f.adjust_for_ambient_noise(source2, duration=0.2)
+
+            # listens for the user's input
+            audio2 = f.listen(source2)
+
+            # Using google to recognize audio
+            MyText = f.recognize_google(audio2)
+            MyText = MyText.lower()
+
+            print(MyText)
+
+    except sr.RequestError as e:
+        print("Could not request results; {0}".format(e))
+
+    except sr.UnknownValueError:
+        print("unknown error occurred")
+
+    ll = f"    Text?: " \
+         f"                                 {MyText}"
+    lt.insert('end', ll)
+    lt.update()
+    lt.pack()
+
+    def bbb():
+        time.sleep(3)
+        pyautogui.write(MyText)
+
+    button = tk.Button(r, text='Type', width=25, command=bbb)
+    button.pack()
+
+
+m = '''
+                INFO
+    Press start to start detecting 
+    speech.
+    
+    If what you said is displayed
+    or is close enough:
+    -Click STOP
+    -Press the TYPE button
+    -Click where to type (not on GUI)
+ '''
+tb = tk.Text(r, height=12, width=40)
+tb.pack(expand=True)
+tb.insert('end', m)
+tb.config(state='disabled')
+
+thing = tk.Button(r, text='Start', width=25, command=main)
+thing.pack()
+
+r.mainloop()
