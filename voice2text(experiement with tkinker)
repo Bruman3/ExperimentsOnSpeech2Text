@@ -2,10 +2,13 @@ import time
 import tkinter as tk
 import pyautogui
 import speech_recognition as sr
+from tkinter import *
 
 r = tk.Tk()
 r.title('GUI //audio to text//')
 r.attributes('-topmost', 1)
+fra = Frame(r, bg='grey', width=380, height=40)
+fra.pack()
 
 
 def main():
@@ -13,6 +16,7 @@ def main():
     lt = tk.Text(r, height=3, width=40)
     lt.config(state='normal')
 
+    # while sss:
     print("listening...")
     # Exception handling to handle
     # exceptions at the runtime
@@ -49,8 +53,30 @@ def main():
         time.sleep(3)
         pyautogui.write(MyText)
 
-    button = tk.Button(r, text='Type', width=25, command=bbb)
-    button.pack()
+    def clipboard():
+        r.clipboard_clear()
+        r.clipboard_append(MyText)
+
+    frame = Frame(r, bg='grey', width=380, height=40)
+    frame.pack()
+    button = tk.Button(frame, text='Type', width=25, command=bbb)
+    button.pack(side=tk.LEFT)
+    button4 = tk.Button(frame, text='Copy to clipboard', width=25, command=clipboard)
+    button4.pack(side=tk.RIGHT)
+
+    def clear():
+        frame.pack_forget()
+        button.pack_forget()
+        button4.pack_forget()
+        lt.pack_forget()
+        clear.pack_forget()
+
+    clear = tk.Button(fra, text="Clear", width=25, command=clear)
+    clear.pack(side=tk.RIGHT)
+
+
+thing = tk.Button(fra, text='Start', width=25, command=main)
+thing.pack(side=tk.LEFT)
 
 
 m = '''
@@ -63,13 +89,13 @@ m = '''
     -Click STOP
     -Press the TYPE button
     -Click where to type (not on GUI)
+    or
+    -Press copy to clipboard 
+    -Paste to your heart's content
  '''
 tb = tk.Text(r, height=12, width=40)
 tb.pack(expand=True)
 tb.insert('end', m)
 tb.config(state='disabled')
-
-thing = tk.Button(r, text='Start', width=25, command=main)
-thing.pack()
 
 r.mainloop()
