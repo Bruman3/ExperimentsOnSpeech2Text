@@ -1,3 +1,4 @@
-# ExperimentsOnSpeech2Text
+# ExperimentsOnSpeechAndText
 
-Just experiments with speach recognizer 
+
+experiments
